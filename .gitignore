@@ -12,3 +12,4 @@ backend/tmp/
 # etc
 *.env
 .DS_Store
+.vscode/
