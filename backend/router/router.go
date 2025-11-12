@@ -5,11 +5,8 @@ import (
 	"github.com/nao-takechi/poker-insight/backend/handlers"
 )
 
-func SetupRoutes(app *fiber.App) {
+func SetupRoutes(app *fiber.App, sessionHandler *handlers.SessionHandler) {
 	api := app.Group("/api")
-
-	api.Post("/sessions", handlers.CreateSession)
-	api.Get("/sessions", handlers.GetSessions)
-	// api.Get("/stats/summary", handlers.GetStatsSummary)
-	// api.Post("/chat", handlers.GetStatsSummary)
+	api.Post("/sessions", sessionHandler.CreateSession)
+	api.Get("/sessions", sessionHandler.GetSessions)
 }
