@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/nao-takechi/poker-insight/backend/models"
-	"github.com/nao-takechi/poker-insight/backend/service"
+	"github.com/nao-takechi/poker-insight/models"
+	"github.com/nao-takechi/poker-insight/service"
 )
 
 type SessionHandler struct {

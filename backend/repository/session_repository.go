@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/nao-takechi/poker-insight/backend/models"
+	"github.com/nao-takechi/poker-insight/models"
 	"gorm.io/gorm"
 )
 

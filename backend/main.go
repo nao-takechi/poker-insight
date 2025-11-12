@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/nao-takechi/poker-insight/backend/handlers"
-	"github.com/nao-takechi/poker-insight/backend/models"
-	"github.com/nao-takechi/poker-insight/backend/repository"
-	"github.com/nao-takechi/poker-insight/backend/router"
-	"github.com/nao-takechi/poker-insight/backend/service"
+	"github.com/nao-takechi/poker-insight/handlers"
+	"github.com/nao-takechi/poker-insight/models"
+	"github.com/nao-takechi/poker-insight/repository"
+	"github.com/nao-takechi/poker-insight/router"
+	"github.com/nao-takechi/poker-insight/service"
 )
 
 func main() {

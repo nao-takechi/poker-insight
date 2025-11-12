@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/nao-takechi/poker-insight/backend/handlers"
+	"github.com/nao-takechi/poker-insight/handlers"
 )
 
 func SetupRoutes(app *fiber.App, sessionHandler *handlers.SessionHandler) {
