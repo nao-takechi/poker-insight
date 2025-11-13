@@ -3,6 +3,7 @@ package unit
 import (
 	"testing"
 
+	gen "github.com/nao-takechi/poker-insight/gen"
 	"github.com/nao-takechi/poker-insight/models"
 	"github.com/nao-takechi/poker-insight/service"
 	"github.com/stretchr/testify/assert"
@@ -24,35 +25,54 @@ func (m *mockRepo) FindAll() ([]models.Session, error) {
 	return args.Get(0).([]models.Session), args.Error(1)
 }
 
-// --- テスト ---
+// --- テスト：正常系 ---
 func TestSessionServiceCreateValid(t *testing.T) {
-	// Setup
 	mockR := new(mockRepo)
 	svc := service.NewSessionService(mockR)
 
-	// Prepare
-	session := &models.Session{BuyIn: 1000, Result: 1500}
-	mockR.On("Create", session).Return(nil)
+	input := gen.SessionInput{
+		Type:   gen.SessionInputTypeRing,
+		BuyIn:  1000,
+		Result: 1500,
+		Note:   ptr("memo"),
+	}
 
-	// Execute
-	err := svc.CreateSession(session)
+	// DB に保存される構造体を期待
+	expectedSession := models.Session{
+		Type:   "ring",
+		BuyIn:  1000,
+		Result: 1500,
+		Note:   "memo",
+	}
 
-	// Verify
+	mockR.On("Create", mock.AnythingOfType("*models.Session")).Return(nil)
+
+	session, err := svc.CreateSession(input)
+
 	assert.NoError(t, err)
+	assert.Equal(t, expectedSession.Type, session.Type)
+	assert.Equal(t, expectedSession.BuyIn, session.BuyIn)
+	assert.Equal(t, expectedSession.Result, session.Result)
 	mockR.AssertExpectations(t)
 }
 
+// --- テスト：異常系（不正値） ---
 func TestSessionServiceCreateInvalid(t *testing.T) {
-	// Setup
 	mockR := new(mockRepo)
 	svc := service.NewSessionService(mockR)
 
-	// Prepare
-	session := &models.Session{BuyIn: -1000, Result: 1500}
+	input := gen.SessionInput{
+		Type:   gen.SessionInputTypeRing,
+		BuyIn:  -1,
+		Result: 1500,
+	}
 
-	// Execute
-	err := svc.CreateSession(session)
+	_, err := svc.CreateSession(input)
 
-	// Verify
 	assert.ErrorIs(t, err, service.ErrInvalidSession)
+}
+
+// --- ヘルパー ---
+func ptr(s string) *string {
+	return &s
 }

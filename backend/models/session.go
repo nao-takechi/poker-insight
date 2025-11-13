@@ -1,22 +1,13 @@
 package models
 
-import (
-	"time"
-)
-
-type SessionType string
-
-const (
-	Tournament SessionType = "tournament"
-	Ring       SessionType = "ring"
-)
+import "time"
 
 type Session struct {
-	ID        uint        `gorm:"primaryKey"`
-	Type      SessionType `json:"type"`
-	BuyIn     int         `json:"buy_in"`
-	Result    int         `json:"result"`
-	OtherCost int         `json:"other_cost"`
-	Note      string      `json:"note"`
-	CreatedAt time.Time   `json:"created_at"`
+	ID        uint      `gorm:"primaryKey"`
+	Type      string
+	BuyIn     int
+	Result    int
+	OtherCost int
+	Note      string
+	CreatedAt time.Time
 }

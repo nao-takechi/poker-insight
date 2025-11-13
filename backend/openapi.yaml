@@ -2,9 +2,64 @@ openapi: 3.0.3
 info:
   title: Poker Insight API
   version: 1.0.0
-  description: Poker Insight API documentation
+  description: Generated from Zod schemas
 components:
-  schemas: {}
+  schemas:
+    SessionInput:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - tournament
+            - ring
+        buyIn:
+          type: integer
+          minimum: 0
+        result:
+          type: integer
+        otherCost:
+          type: integer
+        note:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - type
+        - buyIn
+        - result
+    SessionResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - tournament
+            - ring
+        buyIn:
+          type: integer
+          minimum: 0
+        result:
+          type: integer
+        otherCost:
+          type: integer
+        note:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        id:
+          type: integer
+      required:
+        - type
+        - buyIn
+        - result
+        - createdAt
+        - id
+    SessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/SessionResponse'
   parameters: {}
 paths:
   /sessions:
@@ -13,28 +68,19 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                type:
-                  type: string
-                  enum:
-                    - tournament
-                    - ring
-                buyIn:
-                  type: number
-                  minimum: 0
-                result:
-                  type: number
-                  minimum: 0
-                cost:
-                  type: number
-                  minimum: 0
-                memo:
-                  type: string
-              required:
-                - type
-                - buyIn
-                - result
+              $ref: '#/components/schemas/SessionInput'
+      responses:
+        '201':
+          description: Created session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+    get:
       responses:
         '200':
-          description: OK
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionList'

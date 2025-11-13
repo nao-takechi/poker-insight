@@ -8,13 +8,40 @@ import yaml from "js-yaml";
 import path from "path";
 import { z } from "zod";
 
+// Zod 拡張実行
 extendZodWithOpenApi(z);
 
-import { sessionSchema } from "../../shared/schema/sessionSchema";
+import {
+  sessionInputSchema,
+  sessionResponseSchema,
+} from "../../shared/schema/api/sessionApiSchema";
 
-// レジストリ作成
+const registerSchema = (
+  registry: OpenAPIRegistry,
+  name: string,
+  schema: z.ZodTypeAny
+) => registry.register(name, schema);
+
 const registry = new OpenAPIRegistry();
 
+// components.schemas
+const SessionInputRef = registerSchema(
+  registry,
+  "SessionInput",
+  sessionInputSchema
+);
+const SessionResponseRef = registerSchema(
+  registry,
+  "SessionResponse",
+  sessionResponseSchema
+);
+const SessionListRef = registerSchema(
+  registry,
+  "SessionList",
+  z.array(sessionResponseSchema)
+);
+
+// Path definitions
 registry.registerPath({
   method: "post",
   path: "/sessions",
@@ -22,32 +49,55 @@ registry.registerPath({
     body: {
       content: {
         "application/json": {
-          schema: sessionSchema,
+          schema: SessionInputRef,
         },
       },
     },
   },
   responses: {
-    200: {
-      description: "OK",
+    201: {
+      description: "Created",
+      content: {
+        "application/json": {
+          schema: SessionResponseRef,
+        },
+      },
     },
   },
 });
 
-const generator = new OpenApiGeneratorV3(registry.definitions);
-const doc = generator.generateDocument({
-  openapi: "3.0.3",
-  info: {
-    title: "Poker Insight API",
-    version: "1.0.0",
-    description: "Poker Insight API documentation",
+registry.registerPath({
+  method: "get",
+  path: "/sessions",
+  responses: {
+    200: {
+      description: "List of sessions",
+      content: {
+        "application/json": {
+          schema: SessionListRef,
+        },
+      },
+    },
   },
 });
 
-// 👉 ここが重要：YAML に変換
-const yamlDoc = yaml.dump(doc);
+// YAML 生成ヘルパー
+const generateOpenApiYaml = () => {
+  const generator = new OpenApiGeneratorV3(registry.definitions);
+  const doc = generator.generateDocument({
+    openapi: "3.0.3",
+    info: {
+      title: "Poker Insight API",
+      version: "1.0.0",
+      description: "Poker Insight API documentation",
+    },
+  });
 
-const outPath = path.resolve(__dirname, "../../backend/openapi.yaml");
-fs.writeFileSync(outPath, yamlDoc);
+  const yamlDoc = yaml.dump(doc);
+  const outPath = path.resolve(__dirname, "../../backend/openapi.yaml");
+  fs.writeFileSync(outPath, yamlDoc);
 
-console.log("OpenAPI generated:", outPath);
+  console.log("OpenAPI generated:", outPath);
+};
+
+generateOpenApiYaml();

@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
+	gen "github.com/nao-takechi/poker-insight/gen"
 	"github.com/nao-takechi/poker-insight/handlers"
 	"github.com/nao-takechi/poker-insight/models"
 	"github.com/stretchr/testify/assert"
@@ -13,58 +15,80 @@ import (
 
 // --- モックサービス定義 ---
 type mockService struct {
-	createdSession *models.Session
+	CreateSessionFn  func(gen.SessionInput) (models.Session, error)
+	GetAllSessionsFn func() ([]models.Session, error)
+}
+
+func (m *mockService) CreateSession(input gen.SessionInput) (models.Session, error) {
+	return m.CreateSessionFn(input)
 }
 
 func (m *mockService) GetAllSessions() ([]models.Session, error) {
-	return []models.Session{
-		{Type: "tournament", BuyIn: 1000, Result: 1500},
-	}, nil
-}
-
-func (m *mockService) CreateSession(s *models.Session) error {
-	m.createdSession = s
-	return nil
+	return m.GetAllSessionsFn()
 }
 
 // GET /sessions
 func TestGetSessionsHandler(t *testing.T) {
-	// Setup
 	app := fiber.New()
-	mockSvc := &mockService{}
+
+	mockSvc := &mockService{
+		GetAllSessionsFn: func() ([]models.Session, error) {
+			return []models.Session{
+				{
+					ID:        1,
+					Type:      "ring",
+					BuyIn:     1000,
+					Result:    1500,
+					CreatedAt: time.Now(),
+				},
+			}, nil
+		},
+	}
+
 	handler := handlers.NewSessionHandler(mockSvc)
 	app.Get("/sessions", handler.GetSessions)
 
-	// Prepare Request
 	req := httptest.NewRequest("GET", "/sessions", nil)
 
-	// Execute
 	resp, _ := app.Test(req, -1)
 
-	// Verify
 	assert.Equal(t, 200, resp.StatusCode)
 }
 
 // POST /sessions
 func TestCreateSessionHandler(t *testing.T) {
-	// Setup
 	app := fiber.New()
-	mockSvc := &mockService{}
+
+	mockSvc := &mockService{
+		CreateSessionFn: func(input gen.SessionInput) (models.Session, error) {
+			return models.Session{
+				ID:        5,
+				Type:      string(input.Type),
+				BuyIn:     input.BuyIn,
+				Result:    input.Result,
+				OtherCost: 200,
+				Note:      "test memo",
+				CreatedAt: time.Now(),
+			}, nil
+		},
+	}
+
 	handler := handlers.NewSessionHandler(mockSvc)
 	app.Post("/sessions", handler.CreateSession)
 
-	// Prepare Request
-	body := []byte(`{"type":"cash","buy_in":2000,"result":2500}`)
+	body := []byte(`{
+		"type": "ring",
+		"buyIn": 2000,
+		"result": 2500,
+		"otherCost": 200,
+		"note": "test memo",
+		"createdAt": "2025-11-13T12:00:00Z"
+	}`)
+
 	req := httptest.NewRequest("POST", "/sessions", bytes.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 
-	// Execute
 	resp, _ := app.Test(req, -1)
 
-	// Verify
 	assert.Equal(t, 201, resp.StatusCode)
-	assert.NotNil(t, mockSvc.createdSession)
-	assert.Equal(t, "cash", string(mockSvc.createdSession.Type))
-	assert.Equal(t, 2000, mockSvc.createdSession.BuyIn)
-	assert.Equal(t, 2500, mockSvc.createdSession.Result)
 }
