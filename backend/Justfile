@@ -1,0 +1,7 @@
+# プロジェクト全体のテスト
+test:
+    go test ./... -v
+
+# 特定パッケージのテスト（引数付き）
+test-dir pkg:
+    go test ./tests/{{pkg}} -v

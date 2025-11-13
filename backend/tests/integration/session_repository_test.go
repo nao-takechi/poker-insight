@@ -9,18 +9,26 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestRepository_CreateAndFindAll(t *testing.T) {
+func TestSessionRepositoryCreate(t *testing.T) {
+	// Setup
 	testDB := testutils.SetupTestDB(t)
 	db := testDB.DB
-
 	repo := repository.NewSessionRepository(db)
 
-	session := &models.Session{Type: "tournament", BuyIn: 1000, Result: 1500}
-	err := repo.Create(session)
-	assert.NoError(t, err)
+	// Prepare
+	session := &models.Session{
+		Type:   "tournament",
+		BuyIn:  1000,
+		Result: 1500,
+	}
 
-	sessions, err := repo.FindAll()
-	assert.NoError(t, err)
+	// Execute
+	errCreate := repo.Create(session)
+	sessions, errFind := repo.FindAll()
+
+	// Verify
+	assert.NoError(t, errCreate)
+	assert.NoError(t, errFind)
 	assert.Len(t, sessions, 1)
 	assert.Equal(t, "tournament", string(sessions[0].Type))
 }

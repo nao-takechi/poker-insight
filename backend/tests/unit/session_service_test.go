@@ -25,26 +25,34 @@ func (m *mockRepo) FindAll() ([]models.Session, error) {
 }
 
 // --- テスト ---
-func TestCreateSession_ValidData(t *testing.T) {
+func TestSessionServiceCreateValid(t *testing.T) {
+	// Setup
 	mockR := new(mockRepo)
 	svc := service.NewSessionService(mockR)
 
+	// Prepare
 	session := &models.Session{BuyIn: 1000, Result: 1500}
-
-	// Repository.Create() が呼ばれることを期待
 	mockR.On("Create", session).Return(nil)
 
+	// Execute
 	err := svc.CreateSession(session)
+
+	// Verify
 	assert.NoError(t, err)
 	mockR.AssertExpectations(t)
 }
 
-func TestCreateSession_InvalidData(t *testing.T) {
+func TestSessionServiceCreateInvalid(t *testing.T) {
+	// Setup
 	mockR := new(mockRepo)
 	svc := service.NewSessionService(mockR)
 
+	// Prepare
 	session := &models.Session{BuyIn: -1000, Result: 1500}
+
+	// Execute
 	err := svc.CreateSession(session)
 
+	// Verify
 	assert.ErrorIs(t, err, service.ErrInvalidSession)
 }
