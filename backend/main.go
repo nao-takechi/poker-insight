@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/nao-takechi/poker-insight/handlers"
 	"github.com/nao-takechi/poker-insight/models"
 	"github.com/nao-takechi/poker-insight/repository"
@@ -22,6 +23,11 @@ func main() {
 	
 	// Fiber初期化
 	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+        AllowOrigins: "http://localhost:3000, http://127.0.0.1:3000",
+        AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+        AllowHeaders: "Origin, Content-Type, Accept",
+    }))
 	router.SetupRoutes(app, handler)
 	
 	// Webサーバ起動
