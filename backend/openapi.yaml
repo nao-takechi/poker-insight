@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Poker Insight API
+  version: 1.0.0
+  description: Poker Insight API documentation
+components:
+  schemas: {}
+  parameters: {}
+paths:
+  /sessions:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - tournament
+                    - ring
+                buyIn:
+                  type: number
+                  minimum: 0
+                result:
+                  type: number
+                  minimum: 0
+                cost:
+                  type: number
+                  minimum: 0
+                memo:
+                  type: string
+              required:
+                - type
+                - buyIn
+                - result
+      responses:
+        '200':
+          description: OK
