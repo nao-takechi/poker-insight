@@ -8,7 +8,6 @@ export function useSessionForm() {
   const [result, setResult] = useState("");
   const [otherCost, setOtherCost] = useState("");
   const [note, setNote] = useState("");
-
   const validate = () => {
     return sessionDomainSchema.safeParse({
       type,
@@ -19,17 +18,14 @@ export function useSessionForm() {
       createdAt: new Date().toISOString(),
     });
   };
-
   const submit = async () => {
     const parsed = validate();
     if (!parsed.success) {
       return { ok: false, error: parsed.error };
     }
-
     await createSession(parsed.data);
     return { ok: true };
   };
-
   return {
     type,
     setType,

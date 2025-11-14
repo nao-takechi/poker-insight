@@ -1,7 +1,7 @@
 # プロジェクト全体のテスト
-test:
-    go test ./... -v
+test: 
+	gotestsum --format=short-verbose -- ./...
 
 # 特定パッケージのテスト（引数付き）
-test-dir pkg:
-    go test ./tests/{{pkg}} -v
+test-dir pkg: 
+	gotestsum --format=short-verbose -- ./tests/{{pkg}}/...
