@@ -67,7 +67,8 @@ jobs:
         working-directory: backend
         env:
           DB_URL: ${{ secrets.DB_URL }}
-        run: atlas migrate lint --env local --dev-url $DB_URL
+        run: |
+          atlas migrate lint --env local --dev-url "$DB_URL"
 
   test-frontend:
     runs-on: ubuntu-latest
@@ -89,6 +90,10 @@ jobs:
       - name: Install dependencies
         working-directory: frontend
         run: npm ci --ignore-scripts
+
+      - name: Install Playwright browsers
+        working-directory: frontend
+        run: npx playwright install --with-deps
 
       - name: Run tests
         working-directory: frontend
