@@ -1,6 +1,8 @@
-import nextJest from "next/jest.js";
+const nextJest = require("next/jest");
 
-const createJestConfig = nextJest({ dir: "./" });
+const createJestConfig = nextJest({
+  dir: "./",
+});
 
 /** @type {import('jest').Config} */
 const customJestConfig = {
@@ -9,9 +11,10 @@ const customJestConfig = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/app/$1",
   },
+
   setupFilesAfterEnv: ["<rootDir>/app/setupTests.ts"],
 
   testPathIgnorePatterns: ["<rootDir>/e2e/", "<rootDir>/node_modules/"],
 };
 
-export default createJestConfig(customJestConfig);
+module.exports = createJestConfig(customJestConfig);

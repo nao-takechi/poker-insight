@@ -63,7 +63,7 @@ func TestCreateSessionHandler(t *testing.T) {
 		CreateSessionFn: func(input gen.SessionInput) (models.Session, error) {
 			return models.Session{
 				ID:        5,
-				Type:      string(input.Type),
+				Type: models.SessionType(input.Type),
 				BuyIn:     input.BuyIn,
 				Result:    input.Result,
 				OtherCost: 200,
