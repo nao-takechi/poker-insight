@@ -3,6 +3,7 @@ export default function Home() {
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <h1>Poker Insight</h1>
       <p>あなたのポーカージャーニーを記録しよう</p>
+      てすと
     </div>
   );
 }
