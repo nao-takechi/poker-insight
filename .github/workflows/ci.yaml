@@ -69,7 +69,7 @@ jobs:
           DB_URL: ${{ secrets.DB_URL }}
         run: atlas migrate lint --env local
 
-    test-frontend:
+  test-frontend:
     runs-on: ubuntu-latest
 
     permissions:
