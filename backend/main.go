@@ -1,54 +1,37 @@
 package main
 
 import (
-  "fmt"
-  "log"
-  "github.com/gofiber/fiber/v2"
-  "gorm.io/driver/postgres"
-  "gorm.io/gorm"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/nao-takechi/poker-insight/handlers"
+	"github.com/nao-takechi/poker-insight/models"
+	"github.com/nao-takechi/poker-insight/repository"
+	"github.com/nao-takechi/poker-insight/router"
+	"github.com/nao-takechi/poker-insight/service"
 )
 
-// モデル定義
-type Session struct {
-  ID      uint   `json:"id" gorm:"primaryKey"`
-  Type    string `json:"type"`
-  BuyIn   float64 `json:"buy_in"`
-  CashOut float64 `json:"cash_out"`
-  Memo    string `json:"memo"`
-}
-
 func main() {
-  // DSN（接続文字列）
-  dsn := "host=localhost user=postgres password=password dbname=poker_insight port=5432 sslmode=disable"
+	// DB初期化
+	models.ConnectDB() 
 
-  db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-  if err != nil {
-    log.Fatal("❌ データベース接続に失敗しました:", err)
-  }
-
-  fmt.Println("✅ データベース接続成功")
-
-  // モデルからテーブル自動生成
-  db.AutoMigrate(&Session{})
-
-  app := fiber.New()
-
-  // すべてのセッションを取得
-  app.Get("/sessions", func(c *fiber.Ctx) error {
-    var sessions []Session
-    db.Find(&sessions)
-    return c.JSON(sessions)
-  })
-
-  // 新しいセッションを追加
-  app.Post("/sessions", func(c *fiber.Ctx) error {
-    var session Session
-    if err := c.BodyParser(&session); err != nil {
-      return c.Status(400).JSON(fiber.Map{"error": err.Error()})
-    }
-    db.Create(&session)
-    return c.JSON(session)
-  })
-
-  app.Listen(":8080")
+	// 依存性注入
+	repo := repository.NewSessionRepository(models.DB)
+	svc := service.NewSessionService(repo)
+	handler := handlers.NewSessionHandler(svc)
+	
+	// Fiber初期化
+	app := fiber.New()
+	app.Use(cors.New(cors.Config{
+        AllowOrigins: "http://localhost:3000, http://127.0.0.1:3000",
+        AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+        AllowHeaders: "Origin, Content-Type, Accept",
+    }))
+	router.SetupRoutes(app, handler)
+	
+	// Webサーバ起動
+	if err := app.Listen(":8080"); err != nil {
+		log.Fatalf("failed to start server: %v", err)
+	}
 }

@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Poker Insight API
+  version: 1.0.0
+  description: Generated from Zod schemas
+components:
+  schemas:
+    SessionInput:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - tournament
+            - ring
+        buyIn:
+          type: integer
+          minimum: 0
+        result:
+          type: integer
+        otherCost:
+          type: integer
+        note:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - type
+        - buyIn
+        - result
+    SessionResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - tournament
+            - ring
+        buyIn:
+          type: integer
+          minimum: 0
+        result:
+          type: integer
+        otherCost:
+          type: integer
+        note:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        id:
+          type: integer
+      required:
+        - type
+        - buyIn
+        - result
+        - createdAt
+        - id
+    SessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/SessionResponse'
+  parameters: {}
+paths:
+  /sessions:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionInput'
+      responses:
+        '201':
+          description: Created session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+    get:
+      responses:
+        '200':
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionList'
