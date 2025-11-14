@@ -1,0 +1,99 @@
+name: CI
+
+permissions:
+  contents: read
+  pull-requests: read
+
+on:
+  pull_request:
+    branches: ["dev", "main"]
+  push:
+    branches: ["dev"]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: poker_insight
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.22.5" # 安定バージョンを固定
+
+      - name: Install Atlas (固定版)
+        run: |
+          curl -sSf https://release.ariga.io/atlas/atlas-linux-amd64-v0.38.1 > atlas
+          chmod +x atlas
+          sudo mv atlas /usr/local/bin/atlas
+
+      - name: Go cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('backend/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
+      - name: Run Go tests
+        working-directory: backend
+        run: go test ./...
+
+      - name: Lint migrations
+        working-directory: backend
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+        run: atlas migrate lint --env local
+
+  test-frontend:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.11.1"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci --ignore-scripts
+
+      - name: Run tests
+        working-directory: frontend
+        env:
+          CI: "true"
+        run: npm test
