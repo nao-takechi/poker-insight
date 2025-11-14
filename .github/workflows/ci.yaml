@@ -67,7 +67,7 @@ jobs:
         working-directory: backend
         env:
           DB_URL: ${{ secrets.DB_URL }}
-        run: atlas migrate lint --env local
+        run: atlas migrate lint --env local --dev-url $DB_URL
 
   test-frontend:
     runs-on: ubuntu-latest
