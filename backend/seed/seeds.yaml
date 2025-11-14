@@ -1,0 +1,14 @@
+sessions:
+  - type: "tournament"
+    buyIn: 5000
+    result: 20000
+    otherCost: 1000
+    note: "最終テーブルまで進出！"
+    createdAt: "2024-11-01T12:00:00Z"
+
+  - type: "ring"
+    buyIn: 4000
+    result: 2000
+    otherCost: 500
+    note: "相手の読みが良かった"
+    createdAt: "2024-11-02T15:00:00Z"

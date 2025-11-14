@@ -24,7 +24,7 @@ func FromAPISessionInput(input gen.SessionInput) Session {
 	}
 
 	return Session{
-		Type:      string(input.Type),
+		Type: SessionType(input.Type),
 		BuyIn:     input.BuyIn,
 		Result:    input.Result,
 		OtherCost: ptrIntToValue(input.OtherCost),
