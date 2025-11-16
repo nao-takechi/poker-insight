@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { SessionsPage } from "../SessionsPage";
+import { SessionsPage } from "../SessionPage";
 
 beforeAll(() => {
   // alert をモック

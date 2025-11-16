@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { SessionsForm } from "../SessionsForm";
+import { SessionsForm } from "../SessionForm";
 
 describe("SessionsForm UI", () => {
   test("保存ボタンが表示される", () => {
