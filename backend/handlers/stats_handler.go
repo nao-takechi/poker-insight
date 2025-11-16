@@ -20,3 +20,17 @@ func (h *StatsHandler) GetSummary(c *fiber.Ctx) error {
 	}
 	return c.JSON(summary)
 }
+
+func (h *StatsHandler) GetMonthly(c *fiber.Ctx) error {
+    months := c.QueryInt("months", 6)
+    if months <= 0 {
+        months = 6
+    }
+
+    data, err := h.service.GetMonthlyProfit(months)
+    if err != nil {
+        return c.Status(500).JSON(fiber.Map{"error": err.Error()})
+    }
+
+    return c.JSON(data)
+}

@@ -16,4 +16,5 @@ func SetupRoutes(
 	api.Get("/sessions", sessionHandler.GetSessions)
 
 	api.Get("/stats/summary", statsHandler.GetSummary)
+	api.Get("/stats/monthly", statsHandler.GetMonthly)
 }

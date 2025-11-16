@@ -19,9 +19,14 @@ type MockStatsService struct {
 	mock.Mock
 }
 
-func (m *MockStatsService) GetSummary() (models.StatsSummary, error) {
+func (m *MockStatsService) GetSummary() (models.Summary, error) {
 	args := m.Called()
-	return args.Get(0).(models.StatsSummary), args.Error(1)
+	return args.Get(0).(models.Summary), args.Error(1)
+}
+
+func (m *MockStatsService) GetMonthlyProfit(months int) ([]models.MonthlyProfit, error) {
+	args := m.Called(months)
+	return args.Get(0).([]models.MonthlyProfit), args.Error(1)
 }
 
 // --- テスト本体 ---
@@ -35,7 +40,7 @@ func TestStatsHandler_GetSummary(t *testing.T) {
 	app.Get("/api/stats/summary", handler.GetSummary)
 
 	// Prepare
-	expected := models.StatsSummary{
+	expected := models.Summary{
 		WinRate:       0.6,
 		TotalProfit:   1000,
 		AverageProfit: 333,
@@ -51,7 +56,7 @@ func TestStatsHandler_GetSummary(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 200, resp.StatusCode)
 
-	var body models.StatsSummary
+	var body models.Summary
 	err = json.NewDecoder(resp.Body).Decode(&body)
 	assert.NoError(t, err)
 	assert.Equal(t, expected, body)
