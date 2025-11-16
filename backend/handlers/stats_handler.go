@@ -6,10 +6,10 @@ import (
 )
 
 type StatsHandler struct {
-	service *service.StatsService
+	service service.StatsServiceInterface
 }
 
-func NewStatsHandler(s *service.StatsService) *StatsHandler {
+func NewStatsHandler(s service.StatsServiceInterface) *StatsHandler {
 	return &StatsHandler{service: s}
 }
 
