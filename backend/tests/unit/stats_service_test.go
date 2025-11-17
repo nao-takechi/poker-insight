@@ -2,6 +2,7 @@ package unit
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -78,4 +79,47 @@ func TestGetSummary_WhenZeroSessions(t *testing.T) {
 	assert.Equal(t, 0, result.TotalProfit)
 	assert.Equal(t, 0, result.AverageProfit)
 	assert.Equal(t, 0.0, result.WinRate)
+}
+
+func TestGetMonthlyProfit_FillsMissingMonths_6Months(t *testing.T) {
+	// Setup
+	mockRepo := new(MockStatsRepo)
+	svc := service.NewStatsService(mockRepo)
+
+	// Prepare
+	months := 6
+	now := time.Now()
+
+	// 月リスト生成（m0: 今月, m1: 1ヶ月前, ...）
+	var monthsList []string
+	for i := range months {
+		monthsList = append(monthsList,
+			now.AddDate(0, -i, 0).Format("2006-01"))
+	}
+
+	m0, m1, m2, m3, m4, m5 := monthsList[0], monthsList[1], monthsList[2], monthsList[3], monthsList[4], monthsList[5]
+
+	// set stub
+	mockRepo.On("MonthlyProfit", months).Return([]models.MonthlyProfit{
+		{Month: m1, Profit: 1000},  // 1ヶ月前は 1000
+		{Month: m4, Profit: -500},  // 4ヶ月前は -500
+	}, nil)
+
+	// Execute
+	results, err := svc.GetMonthlyProfit(months)
+
+	// Verify
+	assert.NoError(t, err)
+	assert.Len(t, results, 6)
+
+	expected := []models.MonthlyProfit{
+		{Month: m0, Profit: 0},
+		{Month: m1, Profit: 1000},
+		{Month: m2, Profit: 0},
+		{Month: m3, Profit: 0},
+		{Month: m4, Profit: -500},
+		{Month: m5, Profit: 0},
+	}
+
+	assert.Equal(t, expected, results)
 }
