@@ -9,5 +9,5 @@ type Summary struct {
 
 type MonthlyProfit struct {
 	Month  string `json:"month"`
-	Profit int64  `json:"profit"`
+	Profit int    `json:"profit"`
 }

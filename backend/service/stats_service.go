@@ -1,6 +1,8 @@
 package service
 
 import (
+	"time"
+
 	"github.com/nao-takechi/poker-insight/models"
 	"github.com/nao-takechi/poker-insight/repository"
 )
@@ -59,5 +61,32 @@ func (s *StatsService) GetSummary() (models.Summary, error) {
 }
 
 func (s *StatsService) GetMonthlyProfit(months int) ([]models.MonthlyProfit, error) {
-	return s.repo.MonthlyProfit(months)
+	// DB から「ある月のみ」取得
+	dbResults, err := s.repo.MonthlyProfit(months)
+	if err != nil {
+		return nil, err
+	}
+
+	// マップ化（補完しやすいため）
+	profitMap := make(map[string]int)
+	for _, item := range dbResults {
+		profitMap[item.Month] = item.Profit // ← int64 → int に変換済み
+	}
+
+	// 今の月から n ヶ月分を埋める
+	now := time.Now()
+	var results []models.MonthlyProfit
+
+	for i := range months { 
+		target := now.AddDate(0, -i, 0).Format("2006-01")
+
+		profit := profitMap[target]
+
+		results = append(results, models.MonthlyProfit{
+			Month:  target,
+			Profit: profit,
+		})
+	}
+
+	return results, nil
 }
