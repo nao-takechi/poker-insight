@@ -1,4 +1,4 @@
-package handler
+package handler_test
 
 import (
 	"encoding/json"
@@ -6,34 +6,18 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
+	handlermock "github.com/nao-takechi/poker-insight/tests/handler/mock"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 
 	"github.com/nao-takechi/poker-insight/handlers"
 	"github.com/nao-takechi/poker-insight/models"
 )
 
-// --- Mock Service ---
-
-type MockStatsService struct {
-	mock.Mock
-}
-
-func (m *MockStatsService) GetSummary() (models.Summary, error) {
-	args := m.Called()
-	return args.Get(0).(models.Summary), args.Error(1)
-}
-
-func (m *MockStatsService) GetMonthlyProfit(months int) ([]models.MonthlyProfit, error) {
-	args := m.Called(months)
-	return args.Get(0).([]models.MonthlyProfit), args.Error(1)
-}
-
 // --- テスト本体 ---
 
 func TestStatsHandler_GetSummary(t *testing.T) {
 	// Setup
-	mockSvc := new(MockStatsService)
+	mockSvc := new(handlermock.MockStatsService)
 	handler := handlers.NewStatsHandler(mockSvc)
 
 	app := fiber.New()
@@ -64,7 +48,7 @@ func TestStatsHandler_GetSummary(t *testing.T) {
 
 func TestStatsHandler_GetMonthly(t *testing.T) {
 	// Setup
-	mockSvc := new(MockStatsService)
+	mockSvc := new(handlermock.MockStatsService)
 	handler := handlers.NewStatsHandler(mockSvc)
 
 	app := fiber.New()

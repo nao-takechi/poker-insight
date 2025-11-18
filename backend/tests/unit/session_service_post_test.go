@@ -6,28 +6,14 @@ import (
 	gen "github.com/nao-takechi/poker-insight/gen"
 	"github.com/nao-takechi/poker-insight/models"
 	"github.com/nao-takechi/poker-insight/service"
+	handlermock "github.com/nao-takechi/poker-insight/tests/unit/mock"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
-// --- モック定義 ---
-type mockRepo struct {
-	mock.Mock
-}
-
-func (m *mockRepo) Create(session *models.Session) error {
-	args := m.Called(session)
-	return args.Error(0)
-}
-
-func (m *mockRepo) FindAll() ([]models.Session, error) {
-	args := m.Called()
-	return args.Get(0).([]models.Session), args.Error(1)
-}
-
 // --- テスト：正常系 ---
 func TestSessionServiceCreateValid(t *testing.T) {
-	mockR := new(mockRepo)
+	mockR := new(handlermock.MockSessionRepo)
 	svc := service.NewSessionService(mockR)
 
 	input := gen.SessionInput{
@@ -58,7 +44,7 @@ func TestSessionServiceCreateValid(t *testing.T) {
 
 // --- テスト：異常系（不正値） ---
 func TestSessionServiceCreateInvalid(t *testing.T) {
-	mockR := new(mockRepo)
+	mockR := new(handlermock.MockSessionRepo)
 	svc := service.NewSessionService(mockR)
 
 	input := gen.SessionInput{
