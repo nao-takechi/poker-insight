@@ -1,9 +1,12 @@
 "use client";
 
 import Button from "@/components/Button";
+
+import { useRouter } from "next/navigation";
 import { useNewSessionForm } from "../hooks/useNewSessionForm";
 
 export function NewSessionForm() {
+  const router = useRouter();
   const {
     type,
     setType,
@@ -24,7 +27,7 @@ export function NewSessionForm() {
       alert("入力に誤りがあります");
       return;
     }
-    alert("保存成功！");
+    router.push("/");
   };
 
   return (
@@ -117,7 +120,12 @@ export function NewSessionForm() {
       </Button>
 
       {/* キャンセル */}
-      <button className="w-full py-2 text-gray-600">キャンセル</button>
+      <Button
+        onClick={() => router.push("/")}
+        className="w-full py-4 rounded-xl text-lg"
+      >
+        キャンセル
+      </Button>
     </div>
   );
 }
