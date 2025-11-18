@@ -34,6 +34,8 @@ export function HomePage() {
 
       <SessionList sessions={sessions} />
 
+      <SessionList sessions={sessions} />
+
       <FabButton onClick={() => router.push("/sessions/new")} />
     </div>
   );
