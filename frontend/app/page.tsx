@@ -1,8 +1,7 @@
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1>Poker Insight</h1>
-      <p>あなたのポーカージャーニーを記録しよう</p>
-    </div>
-  );
+"use client";
+
+import { HomePage } from "@/features/home/pages/HomePage";
+
+export default function Page() {
+  return <HomePage />;
 }
