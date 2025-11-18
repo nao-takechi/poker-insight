@@ -1,19 +1,19 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { SessionsForm } from "../SessionForm";
+import { NewSessionForm } from "../components/NewSessionForm";
 
-describe("SessionsForm UI", () => {
+describe("NewSessionForm UI", () => {
   test("保存ボタンが表示される", () => {
-    render(<SessionsForm />);
+    render(<NewSessionForm />);
     expect(screen.getByText("セッションを保存")).toBeInTheDocument();
   });
 
   test("保存ボタンを押せる", () => {
-    render(<SessionsForm />);
+    render(<NewSessionForm />);
     fireEvent.click(screen.getByText("セッションを保存"));
   });
 
   test("入力欄に値を入力できる", () => {
-    render(<SessionsForm />);
+    render(<NewSessionForm />);
 
     const inputs = screen.getAllByRole("spinbutton");
 
@@ -27,7 +27,7 @@ describe("SessionsForm UI", () => {
   });
 
   test("ゲームタイプの切り替えができる", () => {
-    render(<SessionsForm />);
+    render(<NewSessionForm />);
 
     const ringButton = screen.getByRole("button", { name: /リングゲーム/ });
 

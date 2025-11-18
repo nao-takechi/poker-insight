@@ -1,8 +1,8 @@
 import { sessionDomainSchema } from "@shared/schema/domain/sessionDomainSchema";
 import { useState } from "react";
-import { createSession } from "./sessionApi";
+import { createSession } from "../api/createSession";
 
-export function useSessionForm() {
+export function useNewSessionForm() {
   const [type, setType] = useState<"tournament" | "ring">("tournament");
   const [buyIn, setBuyIn] = useState("");
   const [result, setResult] = useState("");

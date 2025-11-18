@@ -1,19 +1,19 @@
 import { act, renderHook } from "@testing-library/react";
-import { createSession } from "../sessionApi";
-import { useSessionForm } from "../useSessionForm";
+import { createSession } from "../api/createSession";
+import { useNewSessionForm } from "../hooks/useNewSessionForm";
 
-jest.mock("../sessionApi", () => ({
+jest.mock("../api/createSession", () => ({
   createSession: jest.fn(),
 }));
 
-describe("useSessionForm (Unit)", () => {
+describe("useNewSessionForm (Unit)", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   // ① 正常系：バリデーション成功 → createSession を呼ぶ
   test("submit() はバリデーション成功時に createSession を呼び出す", async () => {
-    const { result } = renderHook(() => useSessionForm());
+    const { result } = renderHook(() => useNewSessionForm());
 
     act(() => {
       result.current.setType("ring");
@@ -33,7 +33,7 @@ describe("useSessionForm (Unit)", () => {
 
   // ② 異常系：バリデーション失敗 → createSession を呼ばない
   test("バリデーション失敗時は createSession を呼ばない", async () => {
-    const { result } = renderHook(() => useSessionForm());
+    const { result } = renderHook(() => useNewSessionForm());
 
     act(() => {
       result.current.setBuyIn("abc");
@@ -53,7 +53,7 @@ describe("useSessionForm (Unit)", () => {
     const mockDate = "2025-01-01T00:00:00Z";
     jest.spyOn(global.Date.prototype, "toISOString").mockReturnValue(mockDate);
 
-    const { result } = renderHook(() => useSessionForm());
+    const { result } = renderHook(() => useNewSessionForm());
 
     act(() => {
       result.current.setType("ring");

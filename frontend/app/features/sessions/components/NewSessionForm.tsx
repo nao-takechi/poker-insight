@@ -1,9 +1,9 @@
 "use client";
 
 import Button from "@/components/Button";
-import { useSessionForm } from "./useSessionForm";
+import { useNewSessionForm } from "../hooks/useNewSessionForm";
 
-export function SessionsForm() {
+export function NewSessionForm() {
   const {
     type,
     setType,
@@ -16,7 +16,7 @@ export function SessionsForm() {
     note,
     setNote,
     submit,
-  } = useSessionForm();
+  } = useNewSessionForm();
 
   const handleSubmit = async () => {
     const res = await submit();

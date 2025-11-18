@@ -1,7 +1,7 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { SessionsPage } from "../SessionPage";
+import { NewSessionPage } from "../pages/NewSessionPage";
 
 beforeAll(() => {
   // alert をモック
@@ -19,9 +19,9 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-describe("SessionsPage Integration Test", () => {
+describe("NewSessionPage Integration Test", () => {
   test("フォーム入力 → API 呼び出し → 成功アラート表示まで通る", async () => {
-    render(<SessionsPage />);
+    render(<NewSessionPage />);
 
     // ゲームタイプ切り替え
     fireEvent.click(screen.getByText("リングゲーム"));

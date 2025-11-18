@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { createSession } from "../sessionApi";
+import { createSession } from "../api/createSession";
 
 const server = setupServer(
   rest.post("http://127.0.0.1:8080/api/sessions", (req, res, ctx) => {
