@@ -6,6 +6,7 @@ frontend/.env.local
 # backend
 backend/bin/
 backend/tmp/
+backend/seed-cli/
 *.exe
 *.log
 
