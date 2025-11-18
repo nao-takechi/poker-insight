@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export function BottomNav() {
@@ -16,18 +17,24 @@ export function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-inner flex justify-around py-3">
-      <a href="/home" className="flex flex-col items-center text-teal-600">
+      <Link href="/" className="flex flex-col items-center text-teal-600">
         <span className="text-sm">ホーム</span>
-      </a>
-      <a href="/sessions" className="flex flex-col items-center text-gray-600">
+      </Link>
+
+      <Link
+        href="/sessions"
+        className="flex flex-col items-center text-gray-600"
+      >
         <span className="text-sm">履歴</span>
-      </a>
-      <a href="/stats" className="flex flex-col items-center text-gray-600">
+      </Link>
+
+      <Link href="/stats" className="flex flex-col items-center text-gray-600">
         <span className="text-sm">統計</span>
-      </a>
-      <a href="/chat" className="flex flex-col items-center text-gray-600">
+      </Link>
+
+      <Link href="/chat" className="flex flex-col items-center text-gray-600">
         <span className="text-sm">チャット</span>
-      </a>
+      </Link>
     </nav>
   );
 }
