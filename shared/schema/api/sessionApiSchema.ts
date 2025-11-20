@@ -3,7 +3,6 @@ import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 import { z } from "zod";
 import { sessionDomainSchema } from "../domain/sessionDomainSchema";
 
-// ★ OpenAPI 拡張を適用（必ず一番最初）
 extendZodWithOpenApi(z);
 
 // -------------------------------------------------------------
@@ -19,7 +18,9 @@ export type SessionInput = z.infer<typeof sessionInputSchema>;
 export const sessionResponseSchema = sessionDomainSchema
   .extend({
     id: z.number().int(),
-    createdAt: z.string().datetime({ offset: true }),
+    createdAt: z
+      .string()
+      .refine((v) => !isNaN(Date.parse(v)), "Invalid datetime format"),
   })
   .openapi("SessionResponse");
 

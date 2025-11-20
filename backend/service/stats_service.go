@@ -75,16 +75,15 @@ func (s *StatsService) GetMonthlyProfit(months int) ([]models.MonthlyProfit, err
 
 	// 今の月から n ヶ月分を埋める
 	now := time.Now()
+	start := now.AddDate(0, -(months-1), 0)
+	
 	var results []models.MonthlyProfit
 
 	for i := range months { 
-		target := now.AddDate(0, -i, 0).Format("2006-01")
-
-		profit := profitMap[target]
-
+		targetMonth := start.AddDate(0, i, 0).Format("2006-01")
 		results = append(results, models.MonthlyProfit{
-			Month:  target,
-			Profit: profit,
+			Month:  targetMonth,
+			Profit: profitMap[targetMonth],
 		})
 	}
 

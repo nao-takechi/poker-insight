@@ -1,9 +1,15 @@
 "use client";
 
 import Button from "@/components/Button";
-import { useSessionForm } from "./useSessionForm";
 
-export function SessionsForm() {
+import { useNewSessionForm } from "../hooks/useNewSessionForm";
+
+type NewSessionFormProps = {
+  onSuccess: () => void;
+  onCancel: () => void;
+};
+
+export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
   const {
     type,
     setType,
@@ -16,7 +22,7 @@ export function SessionsForm() {
     note,
     setNote,
     submit,
-  } = useSessionForm();
+  } = useNewSessionForm();
 
   const handleSubmit = async () => {
     const res = await submit();
@@ -24,7 +30,7 @@ export function SessionsForm() {
       alert("入力に誤りがあります");
       return;
     }
-    alert("保存成功！");
+    onSuccess();
   };
 
   return (
@@ -117,7 +123,9 @@ export function SessionsForm() {
       </Button>
 
       {/* キャンセル */}
-      <button className="w-full py-2 text-gray-600">キャンセル</button>
+      <Button onClick={onCancel} className="w-full py-4 rounded-xl text-lg">
+        キャンセル
+      </Button>
     </div>
   );
 }

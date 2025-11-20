@@ -62,7 +62,7 @@ func TestGetMonthlyProfit_FillsMissingMonths_6Months(t *testing.T) {
 
 	// 月リスト生成（m0: 今月, m1: 1ヶ月前, ...）
 	var monthsList []string
-	for i := range months {
+	for i := months - 1; i >= 0; i-- {
 		monthsList = append(monthsList,
 			now.AddDate(0, -i, 0).Format("2006-01"))
 	}

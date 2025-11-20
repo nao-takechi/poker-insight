@@ -24,6 +24,8 @@ func (r *sessionRepository) Create(session *models.Session) error {
 
 func (r *sessionRepository) FindAll() ([]models.Session, error) {
 	var sessions []models.Session
-	err := r.db.Find(&sessions).Error
+	 err := r.db.
+        Order("created_at DESC").
+        Find(&sessions).Error
 	return sessions, err
 }

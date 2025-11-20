@@ -4,7 +4,7 @@ test("セッション登録のE2E: フォーム入力 → 保存成功 まで通
   page,
 }) => {
   // ページにアクセス
-  await page.goto("/sessions");
+  await page.goto("/sessions/new");
 
   // Type 切り替え（部分一致でOK）
   await page.getByRole("button", { name: /リングゲーム/ }).click();
