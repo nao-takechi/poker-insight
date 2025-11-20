@@ -6,10 +6,13 @@ import { SessionList } from "../components/SessionList";
 import { SummarySection } from "../components/SummarySection";
 import { TrendSection } from "../components/TrendSection";
 import { useRecentSessions } from "../hooks/useRecentSessions";
+import { useStatsSummary } from "../hooks/useStatsSummary";
 
 export function HomePage() {
   const router = useRouter();
   const { sessions } = useRecentSessions();
+  const { summary } = useStatsSummary();
+
   return (
     <div className="relative min-h-screen bg-gray-50 p-6 pb-28">
       <header className="mb-6">
@@ -19,7 +22,7 @@ export function HomePage() {
         </p>
       </header>
 
-      <SummarySection />
+      <SummarySection summary={summary} />
 
       <TrendSection />
 
