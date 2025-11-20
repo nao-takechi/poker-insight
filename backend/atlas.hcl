@@ -1,5 +1,5 @@
 env "local" {
-  url = getenv("DB_URL")
+  url = getenv("DATABASE_URL")
   migration {
     dir = "file://migrations"
   }

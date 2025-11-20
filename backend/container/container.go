@@ -1,32 +1,33 @@
 package container
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/nao-takechi/poker-insight/handlers"
-	"github.com/nao-takechi/poker-insight/models"
 	"github.com/nao-takechi/poker-insight/repository"
 	"github.com/nao-takechi/poker-insight/service"
 )
 
 type Container struct {
-	SessionHandler *handlers.SessionHandler
-	StatsHandler   *handlers.StatsHandler
+    SessionHandler *handlers.SessionHandler
+    StatsHandler   *handlers.StatsHandler
 }
 
-func NewContainer() *Container {
-	// Repository
-	sessionRepo := repository.NewSessionRepository(models.DB)
-	statsRepo := repository.NewStatsRepository(models.DB)
+func NewContainer(db *gorm.DB) *Container {
+    // Repository
+    sessionRepo := repository.NewSessionRepository(db)
+    statsRepo := repository.NewStatsRepository(db)
 
-	// Service
-	sessionSvc := service.NewSessionService(sessionRepo)
-	statsSvc := service.NewStatsService(statsRepo)
+    // Service
+    sessionService := service.NewSessionService(sessionRepo)
+    statsService := service.NewStatsService(statsRepo)
 
-	// Handler
-	sessionHandler := handlers.NewSessionHandler(sessionSvc)
-	statsHandler := handlers.NewStatsHandler(statsSvc)
+    // Handler
+    sessionHandler := handlers.NewSessionHandler(sessionService)
+    statsHandler := handlers.NewStatsHandler(statsService)
 
-	return &Container{
-		SessionHandler: sessionHandler,
-		StatsHandler:   statsHandler,
-	}
+    return &Container{
+        SessionHandler: sessionHandler,
+        StatsHandler:   statsHandler,
+    }
 }

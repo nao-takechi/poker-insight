@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -13,32 +12,31 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	// .envを読み込む
-	err := godotenv.Load()
-	if err != nil {
-		log.Println(".envファイルが見つかりません")
+	// 1. ローカルだけ .env を読み込む
+	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
+		// Railway では RAILWAY_ENVIRONMENT が自動セットされる
+		_ = godotenv.Load() // ローカルしか .env が存在しない
 	}
-	// 環境変数を取得
-	host := os.Getenv("POSTGRES_HOST")
-	user := os.Getenv("POSTGRES_USER")
-	password := os.Getenv("POSTGRES_PASSWORD")
-	dbname := os.Getenv("POSTGRES_DB")
-	port := os.Getenv("POSTGRES_PORT")
 
-	// DSNを動的に構築
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		host, user, password, dbname, port,
-	)
-	// DB接続
-	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// 2. 本番もローカルも DATABASE_URL だけを使う
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		log.Fatal("DATABASE_URL is missing")
+	}
+
+	// 3. DB 接続
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("DB connection failed:", err)
+		log.Fatalf("failed to connect database: %v", err)
 	}
-	// マイグレーション
-	if err := database.AutoMigrate(&Session{}); err != nil {
-		log.Fatalf("AutoMigrate failed: %v", err)
+
+	// 4. ローカルだけ AutoMigrate を実行
+	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
+		if err := db.AutoMigrate(&Session{}); err != nil {
+			log.Fatalf("AutoMigrate failed: %v", err)
+		}
 	}
-	DB = database
-	log.Println("✅ Database connected successfully!")
+
+	DB = db
+	log.Println("🔥 Database connected!")
 }

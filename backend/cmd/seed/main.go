@@ -19,9 +19,9 @@ func main() {
 		log.Printf("Warning: .env not loaded from %s: %v", envPath, err)
 	}
 
-	dsn := os.Getenv("DB_URL")
+	dsn := os.Getenv("DATABASE_URL")
 	if dsn == "" {
-		log.Fatal("DB_URL is not set in environment variables")
+		log.Fatal("DATABASE_URL is not set in environment variables")
 	}
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
