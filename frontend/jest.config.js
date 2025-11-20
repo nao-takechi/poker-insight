@@ -13,7 +13,7 @@ const customJestConfig = {
     "^next/navigation$": "<rootDir>/__mocks__/next/navigation.ts",
   },
 
-  setupFilesAfterEnv: ["<rootDir>/setupTests.ts"],
+  setupFilesAfterEnv: ["<rootDir>/test/setupTests.ts"],
 
   testPathIgnorePatterns: ["<rootDir>/e2e/", "<rootDir>/node_modules/"],
 
