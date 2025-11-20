@@ -22,10 +22,10 @@ export function HomePage() {
         <p className="text-gray-600 mt-2">
           あなたのポーカージャーニーを記録しよう
         </p>
-        <p className="text-gray-600 mt-2">
+        <p className="text-gray-600 mt-4 text-sm">
           ※現在ユーザ登録機能は未実装のため、データはすべてデモ用です
         </p>
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-sm">
           ※誰でも追加／削除して構いません（定期的にリセットします）
         </p>
       </header>
