@@ -30,11 +30,9 @@ func ConnectDB() {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	// 4. ローカルだけ AutoMigrate を実行
-	if os.Getenv("RAILWAY_ENVIRONMENT") == "" {
-		if err := db.AutoMigrate(&Session{}); err != nil {
-			log.Fatalf("AutoMigrate failed: %v", err)
-		}
+	// 4. AutoMigrate を実行
+	if err := db.AutoMigrate(&Session{}); err != nil {
+		log.Fatalf("AutoMigrate failed: %v", err)
 	}
 
 	DB = db
