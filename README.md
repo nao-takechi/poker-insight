@@ -8,6 +8,8 @@ Poker Insight は、ポーカーのセッション記録・勝率分析・月次
 
 型の一貫性・テスト容易性・保守性を重視し、実務レベルのアーキテクチャを意識しています。
 
+---
+
 # 🛠 Setup
 
 ## 前提環境
@@ -34,6 +36,8 @@ npm install
 npm run dev
 ```
 
+---
+
 # 🚀 Features
 
 - セッションの登録（タイプ / バイイン / 収支 / メモ）
@@ -59,6 +63,8 @@ PostgreSQL
 Frontend → Vercel
 Backend  → Railway
 ```
+
+---
 
 # 🔍 技術的こだわり
 
@@ -104,6 +110,8 @@ Backend  → Railway
 
 → 実務レベルの品質保証構造を意識。
 
+---
+
 # 📦 Tech Stack
 
 ## Frontend
@@ -130,12 +138,16 @@ Backend  → Railway
 - Vercel（Frontend）
 - Railway（Backend）
 
+---
+
 # 🗺 Roadmap
 
 - 詳細な統計画面
 - セッションの編集・削除
 - AI と対話型の傾向フィードバック機能
 - 公開用プレイヤープロフィール（SSR・SEO 対策）
+
+---
 
 # 📬 Contact
 
