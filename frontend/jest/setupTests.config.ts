@@ -1,6 +1,8 @@
 import "@testing-library/jest-dom";
 import "whatwg-fetch";
 
+process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost";
+
 // --- Streams API polyfill（最初に！）---
 import {
   ReadableStream,

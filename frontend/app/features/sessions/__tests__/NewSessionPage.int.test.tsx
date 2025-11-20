@@ -5,14 +5,23 @@ import { setupServer } from "msw/node";
 import { NewSessionPage } from "../pages/NewSessionPage";
 
 beforeAll(() => {
-  // alert をモック
   window.alert = jest.fn();
 });
 
-// MSW サーバー起動
 const server = setupServer(
-  rest.post("*", (req, res, ctx) => {
-    return res(ctx.status(201), ctx.json({ message: "success" }));
+  rest.post("http://localhost/api/sessions", (req, res, ctx) => {
+    return res(
+      ctx.status(201),
+      ctx.json({
+        id: 999,
+        type: "ring",
+        buyIn: 1000,
+        result: 1500,
+        otherCost: 0,
+        note: "test note",
+        createdAt: "2025-01-01T00:00:00Z",
+      })
+    );
   })
 );
 
@@ -21,27 +30,25 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe("NewSessionPage Integration Test", () => {
-  test("フォーム入力 → API 呼び出し → 成功アラート表示まで通る", async () => {
+  test("フォーム入力 → API 呼び出し → 成功時に router.push('/') が呼ばれる", async () => {
+    // API BASE URL をテスト用に設定
+    process.env.NEXT_PUBLIC_API_BASE_URL = "http://localhost";
+
     render(<NewSessionPage />);
 
-    // ゲームタイプ切り替え
     fireEvent.click(screen.getByText("リングゲーム"));
 
-    // 入力
     const inputs = screen.getAllByRole("spinbutton");
     fireEvent.change(inputs[0], { target: { value: "1000" } });
     fireEvent.change(inputs[1], { target: { value: "1500" } });
     fireEvent.change(inputs[2], { target: { value: "0" } });
 
-    // note
     fireEvent.change(screen.getByRole("textbox"), {
       target: { value: "test note" },
     });
 
-    // 保存
     fireEvent.click(screen.getByText("セッションを保存"));
 
-    // 最終結果（UI反映）
     await waitFor(() => {
       expect(pushMock).toHaveBeenCalledWith("/");
     });
