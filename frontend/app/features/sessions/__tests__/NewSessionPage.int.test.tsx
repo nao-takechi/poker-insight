@@ -1,3 +1,4 @@
+import { pushMock } from "@/../__mocks__/next/navigation";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
@@ -42,7 +43,7 @@ describe("NewSessionPage Integration Test", () => {
 
     // 最終結果（UI反映）
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith("保存成功！");
+      expect(pushMock).toHaveBeenCalledWith("/");
     });
   });
 });

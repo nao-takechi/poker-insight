@@ -2,11 +2,14 @@
 
 import Button from "@/components/Button";
 
-import { useRouter } from "next/navigation";
 import { useNewSessionForm } from "../hooks/useNewSessionForm";
 
-export function NewSessionForm() {
-  const router = useRouter();
+type NewSessionFormProps = {
+  onSuccess: () => void;
+  onCancel: () => void;
+};
+
+export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
   const {
     type,
     setType,
@@ -27,7 +30,7 @@ export function NewSessionForm() {
       alert("入力に誤りがあります");
       return;
     }
-    router.push("/");
+    onSuccess();
   };
 
   return (
@@ -120,10 +123,7 @@ export function NewSessionForm() {
       </Button>
 
       {/* キャンセル */}
-      <Button
-        onClick={() => router.push("/")}
-        className="w-full py-4 rounded-xl text-lg"
-      >
+      <Button onClick={onCancel} className="w-full py-4 rounded-xl text-lg">
         キャンセル
       </Button>
     </div>
