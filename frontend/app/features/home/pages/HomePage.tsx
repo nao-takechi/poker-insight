@@ -6,12 +6,14 @@ import { SessionList } from "../components/SessionList";
 import { SummarySection } from "../components/SummarySection";
 import { TrendSection } from "../components/TrendSection";
 import { useRecentSessions } from "../hooks/useRecentSessions";
+import { useStatsMonthly } from "../hooks/useStatsMonthly";
 import { useStatsSummary } from "../hooks/useStatsSummary";
 
 export function HomePage() {
   const router = useRouter();
   const { sessions } = useRecentSessions();
   const { summary } = useStatsSummary();
+  const { monthly } = useStatsMonthly();
 
   return (
     <div className="relative min-h-screen bg-gray-50 p-6 pb-28">
@@ -24,7 +26,7 @@ export function HomePage() {
 
       <SummarySection summary={summary} />
 
-      <TrendSection />
+      <TrendSection monthly={monthly} />
 
       <SessionList sessions={sessions} />
 

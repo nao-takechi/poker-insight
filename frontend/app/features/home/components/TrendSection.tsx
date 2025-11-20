@@ -1,17 +1,35 @@
 "use client";
 
-export function TrendSection() {
+import { monthlyStatsResponseSchema } from "@shared/schema/api/statsApiSchema";
+import { z } from "zod";
+import { MonthlyChartCanvas } from "./MonthlyChartCanvas";
+
+export type MonthlyStatsResponse = z.infer<typeof monthlyStatsResponseSchema>;
+
+type Props = {
+  monthly: MonthlyStatsResponse | undefined;
+};
+
+export function TrendSection({ monthly }: Props) {
+  if (!monthly) {
+    return (
+      <section className="mb-20">
+        <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
+        <div className="text-gray-500">読み込み中...</div>
+      </section>
+    );
+  }
+
   return (
-    <section aria-labelledby="trend-heading" className="mb-20">
-      <h2 id="trend-heading" className="text-xl font-semibold mb-4">
-        月ごとの収支推移
-      </h2>
+    <section className="mb-20">
+      <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
 
       <figure className="bg-white p-4 rounded-2xl shadow-md">
-        <canvas id="monthlyChart" className="w-full h-40"></canvas>
-        <figcaption className="text-sm text-gray-500 mt-2">
-          月ごとの収支推移のグラフ
+        <figcaption className="text-sm text-gray-500 mb-2">
+          月ごとの収支推移
         </figcaption>
+
+        <MonthlyChartCanvas monthly={monthly} />
       </figure>
     </section>
   );
