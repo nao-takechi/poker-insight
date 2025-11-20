@@ -6,7 +6,7 @@ import { SummaryCard } from "./SummaryCard";
 export type StatsSummary = z.infer<typeof statsSummarySchema>;
 
 type Props = {
-  summary: StatsSummary;
+  summary: StatsSummary | undefined;
 };
 
 export function SummarySection({ summary }: Props) {
