@@ -27,7 +27,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <motion.div
             key={pathname}
             className="overflow-hidden"
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, x: 40 }}
             animate={{
               opacity: [0, 0.6, 1],
               x: [40, 10, 0],
