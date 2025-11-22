@@ -13,14 +13,14 @@ export function SessionList({ sessions }: Props) {
   return (
     <section className="mt-8">
       {/* セクションタイトル */}
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-xl">🏆</span>
-        <h2 className="text-xl font-semibold">最近のセッション</h2>
+      <div className="flex flex-col gap-4 mb-4 p-6  bg-white rounded-2xl shadow-md">
+        <h2 className="text-secondary text-sm">🏆 最近のセッション</h2>
+        <div>
+          {sessions.map((s) => (
+            <SessionCard key={s.id} session={s} />
+          ))}
+        </div>
       </div>
-
-      {sessions.map((s) => (
-        <SessionCard key={s.id} session={s} />
-      ))}
     </section>
   );
 }

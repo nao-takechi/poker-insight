@@ -8,8 +8,8 @@ type Props = {
 export function SummaryCard({ label, value }: Props) {
   return (
     <article className="bg-white p-5 rounded-2xl shadow flex flex-col gap-1">
-      <h3 className="text-sm font-medium">{label}</h3>
-      <p className="text-2xl font-bold">{value}</p>
+      <h3 className="text-secondary text-sm font-medium">{label}</h3>
+      <p className="text-primary text-2xl font-bold">{value}</p>
     </article>
   );
 }

@@ -13,13 +13,15 @@ export function SessionCard({ session }: { session: SessionResponse }) {
   const isPlus = profit >= 0;
 
   return (
-    <article className="bg-white rounded-3xl p-5 shadow mb-4">
+    <article className="bg-[#fbfbf9] rounded-3xl p-5 mb-4">
       <div className="flex justify-between items-start mb-3">
         <div>
-          <h3 className="text-lg font-semibold">
+          <h3 className="text-secondary">
             {session.type === "tournament" ? "トーナメント" : "リング"}
           </h3>
-          <p className="text-sm">{formatDate(session.createdAt)}</p>
+          <p className="text-secondary text-[12px]">
+            {formatDate(session.createdAt)}
+          </p>
         </div>
 
         <span
@@ -35,17 +37,23 @@ export function SessionCard({ session }: { session: SessionResponse }) {
 
       <div className="grid grid-cols-2 text-sm mb-3">
         <div>
-          <p className="">投資額</p>
-          <p className="font-medium">¥{session.buyIn.toLocaleString()}</p>
+          <p className="text-secondary text-[12px]">投資額</p>
+          <p className="text-primary font-medium">
+            ¥{session.buyIn.toLocaleString()}
+          </p>
         </div>
         <div>
-          <p className="">回収額</p>
-          <p className="font-medium">¥{session.result.toLocaleString()}</p>
+          <p className="text-secondary text-[12px]">回収額</p>
+          <p className="text-primary font-medium">
+            ¥{session.result.toLocaleString()}
+          </p>
         </div>
       </div>
 
       {session.note && (
-        <p className="text-sm mt-2 whitespace-pre-line">{session.note}</p>
+        <p className="text-secondary text-sm mt-2 whitespace-pre-line">
+          {session.note}
+        </p>
       )}
     </article>
   );

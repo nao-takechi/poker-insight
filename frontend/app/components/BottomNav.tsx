@@ -16,7 +16,7 @@ export function BottomNav() {
   if (shouldHide) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-inner flex justify-around py-3">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.08)] flex justify-around items-center py-3 h-[50px]">
       <Link href="/" className="flex flex-col items-center text-teal-600">
         <span className="text-sm">ホーム</span>
       </Link>

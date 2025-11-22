@@ -16,7 +16,7 @@ export function HomePage() {
   const { monthly } = useStatsMonthly();
 
   return (
-    <div className="relative min-h-screen bg-[#f8f7f4] px-6 pt-8 pb-12">
+    <div>
       <header className="mb-6">
         <h1 className="heading-primary font-eng">Poker Insight</h1>
         <p className="text-secondary mt-2">
