@@ -1,8 +1,11 @@
 "use client";
 
 import Button from "@/components/Button";
-
+import { Coins, Trophy } from "lucide-react";
 import { useNewSessionForm } from "../hooks/useNewSessionForm";
+
+import { FormField } from "./FormField";
+import { SessionTypeButton } from "./SessionTypeButton";
 
 type NewSessionFormProps = {
   onSuccess: () => void;
@@ -34,96 +37,75 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-md space-y-8">
+    <div className="flex flex-col gap-6 text-secondary">
       {/* セッションタイプ */}
-      <div className="space-y-2">
+      <div className="flex flex-col gap-2">
         <p className="font-medium">セッションタイプ</p>
 
         <div className="grid grid-cols-2 gap-4">
-          <button
+          <SessionTypeButton
+            label="トーナメント"
+            icon={Trophy}
+            active={type === "tournament"}
             onClick={() => setType("tournament")}
-            className={`p-4 border rounded-xl flex flex-col items-center justify-center 
-              ${
-                type === "tournament"
-                  ? "border-green-500 bg-green-50"
-                  : "border-gray-300"
-              }`}
-          >
-            <span className="text-lg">🏆</span>
-            <span>トーナメント</span>
-          </button>
-
-          <button
+          />
+          <SessionTypeButton
+            label="リングゲーム"
+            icon={Coins}
+            active={type === "ring"}
             onClick={() => setType("ring")}
-            className={`p-4 border rounded-xl flex flex-col items-center justify-center 
-              ${
-                type === "ring"
-                  ? "border-green-500 bg-green-50"
-                  : "border-gray-300"
-              }`}
-          >
-            <span className="text-lg">💰</span>
-            <span>リングゲーム</span>
-          </button>
+          />
         </div>
       </div>
 
-      {/* Buy In */}
-      <div className="space-y-1">
-        <label className="font-medium">バイイン（円）</label>
-        <input
-          type="number"
-          value={buyIn}
-          onChange={(e) => setBuyIn(e.target.value)}
-          className="w-full rounded-xl border border-gray-300 px-3 py-2 bg-gray-100"
-        />
+      {/* 金額系 */}
+      <FormField
+        label="バイイン（円）"
+        type="number"
+        value={buyIn}
+        onChange={(v) => setBuyIn(v)}
+      />
+
+      <FormField
+        label="結果（円）"
+        type="number"
+        value={result}
+        onChange={(v) => setResult(v)}
+      />
+
+      <FormField
+        label="その他費用（円・任意）"
+        type="number"
+        value={otherCost}
+        onChange={(v) => setOtherCost(v)}
+      />
+
+      {/* メモ */}
+      <FormField
+        label="メモ（任意）"
+        type="textarea"
+        value={note}
+        onChange={(v) => setNote(v)}
+        rows={4}
+      />
+
+      <div className="flex flex-col gap-4">
+        <Button
+          onClick={handleSubmit}
+          variant="primary"
+          className="py-4 rounded-xl"
+        >
+          セッションを保存
+        </Button>
+
+        <Button
+          onClick={onCancel}
+          variant="secondary"
+          className="py-4 rounded-xl"
+        >
+          キャンセル
+        </Button>
       </div>
-
-      {/* Result */}
-      <div className="space-y-1">
-        <label className="font-medium">結果（円）</label>
-        <input
-          type="number"
-          value={result}
-          onChange={(e) => setResult(e.target.value)}
-          className="w-full rounded-xl border border-gray-300 px-3 py-2 bg-gray-100"
-        />
-      </div>
-
-      {/* otherCost ← 戻した */}
-      <div className="space-y-1">
-        <label className="font-medium">その他費用（円・任意）</label>
-        <input
-          type="number"
-          value={otherCost}
-          onChange={(e) => setOtherCost(e.target.value)}
-          className="w-full rounded-xl border border-gray-300 px-3 py-2 bg-gray-100"
-        />
-      </div>
-
-      {/* note */}
-      <div className="space-y-1">
-        <label className="font-medium">メモ（任意）</label>
-        <textarea
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          rows={4}
-          className="w-full rounded-xl border border-gray-300 px-3 py-2 bg-gray-100"
-        />
-      </div>
-
-      {/* 保存 */}
-      <Button
-        onClick={handleSubmit}
-        className="w-full py-4 rounded-xl text-lg bg-green-500 hover:bg-green-600"
-      >
-        セッションを保存
-      </Button>
-
-      {/* キャンセル */}
-      <Button onClick={onCancel} className="w-full py-4 rounded-xl text-lg">
-        キャンセル
-      </Button>
     </div>
   );
 }

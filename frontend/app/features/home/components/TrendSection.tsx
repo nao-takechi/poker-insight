@@ -20,7 +20,7 @@ export function TrendSection({ monthly }: Props) {
         <figure className="bg-white rounded-2xl shadow-md p-6">
           {/* 見出し */}
           <div className="flex items-center gap-2 mb-4">
-            <TrendingUp size={16} color="#7abfb2" />
+            <TrendingUp size={16} color="#64b5a6" />
             <figcaption className="text-secondary text-sm">
               月ごとの収支推移
             </figcaption>

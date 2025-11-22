@@ -19,13 +19,13 @@ export default function Button({
   className = "",
 }: ButtonProps) {
   const base =
-    "w-full py-3 rounded-lg font-semibold transition-colors duration-200 focus:outline-none focus:ring-2";
+    "w-full py-3 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2";
 
   const variants = {
     primary:
-      "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-300 disabled:bg-blue-300",
+      "bg-[#64b5a6] text-white hover:bg-[#57a094] focus:ring-blue-300 disabled:bg-[#64b5a6]",
     secondary:
-      "bg-gray-100 text-gray-800 hover:bg-gray-200 focus:ring-gray-300 disabled:bg-gray-100 disabled:text-gray-400",
+      "bg-white text-secondary hover:bg-gray-200 focus:ring-gray-300 disabled:bg-gray-100 disabled:text-gray-400",
   };
 
   return (
