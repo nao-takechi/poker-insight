@@ -15,7 +15,7 @@ export function TrendSection({ monthly }: Props) {
     return (
       <section className="mb-20">
         <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
-        <div className="text-gray-500">読み込み中...</div>
+        <div className="">読み込み中...</div>
       </section>
     );
   }
@@ -25,9 +25,7 @@ export function TrendSection({ monthly }: Props) {
       <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
 
       <figure className="bg-white p-4 rounded-2xl shadow-md">
-        <figcaption className="text-sm text-gray-500 mb-2">
-          月ごとの収支推移
-        </figcaption>
+        <figcaption className="text-sm mb-2">月ごとの収支推移</figcaption>
 
         <MonthlyChartCanvas monthly={monthly} />
       </figure>

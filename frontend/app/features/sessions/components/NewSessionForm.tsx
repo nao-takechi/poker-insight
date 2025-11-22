@@ -37,7 +37,7 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
     <div className="bg-white p-6 rounded-3xl shadow-md space-y-8">
       {/* セッションタイプ */}
       <div className="space-y-2">
-        <p className="font-medium text-gray-700">セッションタイプ</p>
+        <p className="font-medium">セッションタイプ</p>
 
         <div className="grid grid-cols-2 gap-4">
           <button
@@ -70,7 +70,7 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
 
       {/* Buy In */}
       <div className="space-y-1">
-        <label className="text-gray-700 font-medium">バイイン（円）</label>
+        <label className="font-medium">バイイン（円）</label>
         <input
           type="number"
           value={buyIn}
@@ -81,7 +81,7 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
 
       {/* Result */}
       <div className="space-y-1">
-        <label className="text-gray-700 font-medium">結果（円）</label>
+        <label className="font-medium">結果（円）</label>
         <input
           type="number"
           value={result}
@@ -92,9 +92,7 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
 
       {/* otherCost ← 戻した */}
       <div className="space-y-1">
-        <label className="text-gray-700 font-medium">
-          その他費用（円・任意）
-        </label>
+        <label className="font-medium">その他費用（円・任意）</label>
         <input
           type="number"
           value={otherCost}
@@ -105,7 +103,7 @@ export function NewSessionForm({ onSuccess, onCancel }: NewSessionFormProps) {
 
       {/* note */}
       <div className="space-y-1">
-        <label className="text-gray-700 font-medium">メモ（任意）</label>
+        <label className="font-medium">メモ（任意）</label>
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}

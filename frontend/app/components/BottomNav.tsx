@@ -21,18 +21,15 @@ export function BottomNav() {
         <span className="text-sm">ホーム</span>
       </Link>
 
-      <Link
-        href="/sessions"
-        className="flex flex-col items-center text-gray-600"
-      >
+      <Link href="/sessions" className="flex flex-col items-center">
         <span className="text-sm">履歴</span>
       </Link>
 
-      <Link href="/stats" className="flex flex-col items-center text-gray-600">
+      <Link href="/stats" className="flex flex-col items-center">
         <span className="text-sm">統計</span>
       </Link>
 
-      <Link href="/chat" className="flex flex-col items-center text-gray-600">
+      <Link href="/chat" className="flex flex-col items-center">
         <span className="text-sm">チャット</span>
       </Link>
     </nav>

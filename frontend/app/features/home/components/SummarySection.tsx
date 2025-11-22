@@ -13,7 +13,7 @@ export function SummarySection({ summary }: Props) {
   if (!summary) {
     return (
       <section className="mb-10">
-        <div className="text-gray-500">読み込み中...</div>
+        <div className="">読み込み中...</div>
       </section>
     );
   }

@@ -31,7 +31,8 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "../shared"
+    "../shared",
+    "tailwind.config.js"
   ],
   "exclude": ["node_modules"]
 }

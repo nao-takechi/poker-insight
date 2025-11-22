@@ -19,9 +19,7 @@ export function SessionCard({ session }: { session: SessionResponse }) {
           <h3 className="text-lg font-semibold">
             {session.type === "tournament" ? "トーナメント" : "リング"}
           </h3>
-          <p className="text-sm text-gray-500">
-            {formatDate(session.createdAt)}
-          </p>
+          <p className="text-sm">{formatDate(session.createdAt)}</p>
         </div>
 
         <span
@@ -37,19 +35,17 @@ export function SessionCard({ session }: { session: SessionResponse }) {
 
       <div className="grid grid-cols-2 text-sm mb-3">
         <div>
-          <p className="text-gray-500">投資額</p>
+          <p className="">投資額</p>
           <p className="font-medium">¥{session.buyIn.toLocaleString()}</p>
         </div>
         <div>
-          <p className="text-gray-500">回収額</p>
+          <p className="">回収額</p>
           <p className="font-medium">¥{session.result.toLocaleString()}</p>
         </div>
       </div>
 
       {session.note && (
-        <p className="text-gray-600 text-sm mt-2 whitespace-pre-line">
-          {session.note}
-        </p>
+        <p className="text-sm mt-2 whitespace-pre-line">{session.note}</p>
       )}
     </article>
   );
