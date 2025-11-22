@@ -13,7 +13,7 @@ export function SessionCard({ session }: { session: SessionResponse }) {
   const isPlus = profit >= 0;
 
   return (
-    <article className="bg-[#fbfbf9] rounded-3xl p-5 mb-4">
+    <article className="bg-[#fbfbf9] rounded-2xl p-5">
       <div className="flex justify-between items-start mb-3">
         <div>
           <h3 className="text-secondary">

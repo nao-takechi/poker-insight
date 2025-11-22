@@ -12,14 +12,14 @@ type Props = {
 export function SummarySection({ summary }: Props) {
   if (!summary) {
     return (
-      <section className="mb-10">
+      <section>
         <div className="">読み込み中...</div>
       </section>
     );
   }
 
   return (
-    <section className="mb-10">
+    <section>
       <div className="grid grid-cols-2 gap-4">
         <SummaryCard
           label="勝率"

@@ -16,8 +16,8 @@ export function HomePage() {
   const { monthly } = useStatsMonthly();
 
   return (
-    <div>
-      <header className="mb-6">
+    <div className="flex flex-col gap-6 mb-6">
+      <header>
         <h1 className="heading-primary font-eng">Poker Insight</h1>
         <p className="text-secondary mt-2">
           あなたのポーカージャーニーを記録しよう
@@ -29,7 +29,6 @@ export function HomePage() {
           ※誰でも追加／削除して構いません（定期的にリセットします）
         </p>
       </header>
-
       <SummarySection summary={summary} />
 
       <TrendSection monthly={monthly} />

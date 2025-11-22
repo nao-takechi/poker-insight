@@ -1,6 +1,7 @@
 "use client";
 
 import { monthlyStatsResponseSchema } from "@shared/schema/api/statsApiSchema";
+import { TrendingUp } from "lucide-react";
 import { z } from "zod";
 import { MonthlyChartCanvas } from "./MonthlyChartCanvas";
 
@@ -12,14 +13,20 @@ type Props = {
 
 export function TrendSection({ monthly }: Props) {
   return (
-    <section className="mb-20">
+    <section>
       {!monthly ? (
-        <div>読み込み中...</div>
+        <div className="text-center text-gray-500">読み込み中...</div>
       ) : (
-        <figure className="bg-white p-6 flex-col rounded-2xl shadow-md">
-          <figcaption className="text-secondary text-sm mb-2">
-            💹 月ごとの収支推移
-          </figcaption>
+        <figure className="bg-white rounded-2xl shadow-md p-6">
+          {/* 見出し */}
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp size={16} color="#7abfb2" />
+            <figcaption className="text-secondary text-sm">
+              月ごとの収支推移
+            </figcaption>
+          </div>
+
+          {/* グラフ */}
           <MonthlyChartCanvas monthly={monthly} />
         </figure>
       )}
