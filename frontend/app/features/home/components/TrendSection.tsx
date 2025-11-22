@@ -1,36 +1,35 @@
 "use client";
 
 import { monthlyStatsResponseSchema } from "@shared/schema/api/statsApiSchema";
+import { TrendingUp } from "lucide-react";
 import { z } from "zod";
 import { MonthlyChartCanvas } from "./MonthlyChartCanvas";
 
 export type MonthlyStatsResponse = z.infer<typeof monthlyStatsResponseSchema>;
 
 type Props = {
-  monthly: MonthlyStatsResponse | undefined;
+  monthly?: MonthlyStatsResponse;
 };
 
 export function TrendSection({ monthly }: Props) {
-  if (!monthly) {
-    return (
-      <section className="mb-20">
-        <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
-        <div className="text-gray-500">読み込み中...</div>
-      </section>
-    );
-  }
-
   return (
-    <section className="mb-20">
-      <h2 className="text-xl font-semibold mb-4">月ごとの収支推移</h2>
+    <section>
+      {!monthly ? (
+        <div className="text-center text-gray-500">読み込み中...</div>
+      ) : (
+        <figure className="bg-white rounded-2xl shadow-md p-6">
+          {/* 見出し */}
+          <div className="flex items-center gap-2 mb-4">
+            <TrendingUp size={16} color="#64b5a6" />
+            <figcaption className="text-secondary text-sm">
+              月ごとの収支推移
+            </figcaption>
+          </div>
 
-      <figure className="bg-white p-4 rounded-2xl shadow-md">
-        <figcaption className="text-sm text-gray-500 mb-2">
-          月ごとの収支推移
-        </figcaption>
-
-        <MonthlyChartCanvas monthly={monthly} />
-      </figure>
+          {/* グラフ */}
+          <MonthlyChartCanvas monthly={monthly} />
+        </figure>
+      )}
     </section>
   );
 }

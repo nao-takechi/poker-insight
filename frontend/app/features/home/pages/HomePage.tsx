@@ -16,20 +16,19 @@ export function HomePage() {
   const { monthly } = useStatsMonthly();
 
   return (
-    <div className="relative min-h-screen bg-gray-50 p-6 pb-28">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Poker Insight</h1>
-        <p className="text-gray-600 mt-2">
+    <div className="flex flex-col gap-6 mb-6">
+      <header>
+        <h1 className="heading-primary font-eng">Poker Insight</h1>
+        <p className="text-secondary mt-2">
           あなたのポーカージャーニーを記録しよう
         </p>
-        <p className="text-gray-600 mt-4 text-sm">
+        <p className="text-secondary mt-4 text-sm">
           ※現在ユーザ登録機能は未実装のため、データはすべてデモ用です
         </p>
-        <p className="text-gray-600 text-sm">
+        <p className="text-secondary text-sm">
           ※誰でも追加／削除して構いません（定期的にリセットします）
         </p>
       </header>
-
       <SummarySection summary={summary} />
 
       <TrendSection monthly={monthly} />
