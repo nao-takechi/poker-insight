@@ -7,31 +7,35 @@ export function BottomNav() {
   const pathname = usePathname();
 
   const HIDDEN_NAV_ROUTES = ["/sessions/new"];
+  if (HIDDEN_NAV_ROUTES.some((r) => pathname.startsWith(r))) return null;
 
-  // 配列内に「prefix マッチするもの」があれば非表示
-  const shouldHide = HIDDEN_NAV_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+  // ナビゲーション項目を配列で管理
+  const navItems = [
+    { href: "/", label: "ホーム" },
+    { href: "/sessions", label: "履歴" },
+    { href: "/stats", label: "統計" },
+    { href: "/chat", label: "チャット" },
+  ];
 
-  if (shouldHide) return null;
+  // アクティブ判定（prefix マッチ）
+  const isActive = (href: string) => pathname.startsWith(href);
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.08)] flex justify-around items-center py-3 h-[50px]">
-      <Link href="/" className="flex flex-col items-center text-teal-600">
-        <span className="text-sm">ホーム</span>
-      </Link>
-
-      <Link href="/sessions" className="flex flex-col items-center">
-        <span className="text-sm">履歴</span>
-      </Link>
-
-      <Link href="/stats" className="flex flex-col items-center">
-        <span className="text-sm">統計</span>
-      </Link>
-
-      <Link href="/chat" className="flex flex-col items-center">
-        <span className="text-sm">チャット</span>
-      </Link>
+      {navItems.map(({ href, label }) => {
+        const active = isActive(href);
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`flex flex-col items-center transition-colors ${
+              active ? "text-teal-600" : "text-gray-500"
+            }`}
+          >
+            <span className="text-sm">{label}</span>
+          </Link>
+        );
+      })}
     </nav>
   );
 }
