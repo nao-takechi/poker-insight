@@ -26,21 +26,21 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <main className="max-w-[600px] m-auto relative min-h-screen px-6 pt-8 pb-12">
           <motion.div
             key={pathname}
+            className="overflow-hidden"
             initial={{ opacity: 0, x: 40 }}
             animate={{
               opacity: [0, 0.6, 1],
               x: [40, 10, 0],
             }}
             transition={{
-              duration: 0.48, // ← ほんの少し短く
-              ease: ["easeOut", "easeOut", [0.33, 0.0, 0.2, 1.0]], // ← 初速を軽く強め
+              duration: 0.48,
+              ease: ["easeOut", "easeOut", [0.33, 0.0, 0.2, 1.0]],
             }}
           >
             {children}
           </motion.div>
-
-          <BottomNav />
         </main>
+        <BottomNav />
       </body>
     </html>
   );
