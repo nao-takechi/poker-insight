@@ -13,7 +13,7 @@ type Props = {
 export function SessionList({ sessions }: Props) {
   return (
     <section>
-      <div className="bg-white rounded-3xl shadow-md p-6">
+      <div className="bg-white rounded-3xl shadow p-6">
         {/* 見出し */}
         <div className="flex items-center gap-2 mb-4">
           <Trophy size={16} color="#e9c273" />

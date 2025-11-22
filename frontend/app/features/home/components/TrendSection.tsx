@@ -17,7 +17,7 @@ export function TrendSection({ monthly }: Props) {
       {!monthly ? (
         <div className="text-center text-gray-500">読み込み中...</div>
       ) : (
-        <figure className="bg-white rounded-2xl shadow-md p-6">
+        <figure className="bg-white rounded-2xl shadow p-6">
           {/* 見出し */}
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp size={16} color="#64b5a6" />
