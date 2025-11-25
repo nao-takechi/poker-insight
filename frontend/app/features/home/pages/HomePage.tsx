@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { FabButton } from "../components/FabButton";
 import { SessionList } from "../components/SessionList";
 import { SummarySection } from "../components/SummarySection";
 import { TrendSection } from "../components/TrendSection";
@@ -10,7 +8,6 @@ import { useStatsMonthly } from "../hooks/useStatsMonthly";
 import { useStatsSummary } from "../hooks/useStatsSummary";
 
 export function HomePage() {
-  const router = useRouter();
   const { sessions } = useRecentSessions();
   const { summary } = useStatsSummary();
   const { monthly } = useStatsMonthly();
@@ -34,8 +31,6 @@ export function HomePage() {
       <TrendSection monthly={monthly} />
 
       <SessionList sessions={sessions} />
-
-      <FabButton onClick={() => router.push("/sessions/new")} />
     </div>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
 import { BottomNav } from "@/components/BottomNav";
+import { FabButton } from "@/features/home/components/FabButton";
 import { motion } from "framer-motion";
 import { Afacad } from "next/font/google";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import "./globals.css";
 
@@ -19,6 +20,7 @@ const afacad = Afacad({
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <html lang="ja" className={afacad.variable}>
@@ -40,6 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             {children}
           </motion.div>
         </main>
+        <FabButton onClick={() => router.push("/sessions/new")} />
         <BottomNav />
       </body>
     </html>
