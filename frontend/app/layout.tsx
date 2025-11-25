@@ -1,7 +1,7 @@
 "use client";
 
 import { BottomNav } from "@/components/BottomNav";
-import { FabButton } from "@/features/home/components/FabButton";
+import { FabButton } from "@/components/FabButton";
 import { motion } from "framer-motion";
 import { Afacad } from "next/font/google";
 import { usePathname, useRouter } from "next/navigation";
