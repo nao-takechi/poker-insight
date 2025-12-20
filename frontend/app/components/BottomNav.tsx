@@ -18,7 +18,8 @@ export function BottomNav() {
   ];
 
   // アクティブ判定（prefix マッチ）
-  const isActive = (href: string) => pathname.startsWith(href);
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(href + "/");
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.08)] flex justify-around items-center py-3 h-[50px]">

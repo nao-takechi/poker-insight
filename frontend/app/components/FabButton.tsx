@@ -1,6 +1,14 @@
+"use client";
+
 import { Plus } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export function FabButton({ onClick }: { onClick: () => void }) {
+  const pathname = usePathname();
+
+  const HIDDEN_ROUTES = ["/sessions/new"];
+  if (HIDDEN_ROUTES.some((r) => pathname.startsWith(r))) return null;
+
   return (
     <button
       onClick={onClick}
